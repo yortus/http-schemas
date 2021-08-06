@@ -4,6 +4,7 @@ import * as cookieParser from 'cookie-parser';
 import * as express from 'express';
 import * as useragent from 'express-useragent';
 import * as http from 'http';
+import * as morgan from 'morgan';
 import {createRequestHandler, decorateExpressRouter, t} from '../../server';
 import {testGetOnlySchema, testSchema} from './test-schema';
 
@@ -74,6 +75,7 @@ export function createTestServer() {
     const app = express();
     app.use(compression());
     app.use(cookieParser());
+    app.use(morgan('combined'));
     app.use(useragent.express());
     app.use(bodyParser.json());
     app.use('/api', typedRoutes);

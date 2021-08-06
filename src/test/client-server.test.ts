@@ -14,7 +14,7 @@ describe('Implementing a HTTP client and server', () => {
     before(server.start);
     after(server.stop);
     it('GET /random-numbers', async () => {
-        const rnds = await client.get('/random-numbers');
+        const rnds = await client.get('/random-numbers', {queryParams: {foo: 'bar'}});
         expect(rnds).to.be.an('array');
         rnds.every(n => expect(n).to.be.a('number'));
     });
