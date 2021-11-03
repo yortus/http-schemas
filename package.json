@@ -1,6 +1,6 @@
 {
     "name": "http-schemas",
-    "version": "0.12.2",
+    "version": "0.12.3",
     "description": "Strongly-typed HTTP schemas",
     "main": "./dist/index.js",
     "types": "./dist/index.d.ts",
@@ -31,30 +31,30 @@
         "server.js"
     ],
     "devDependencies": {
-        "@types/body-parser": "^1.19.0",
-        "@types/chai": "^4.2.9",
-        "@types/chai-as-promised": "^7.1.2",
-        "@types/compression": "^1.0.1",
+        "@types/body-parser": "^1.19.1",
+        "@types/chai": "^4.2.22",
+        "@types/chai-as-promised": "^7.1.4",
+        "@types/compression": "^1.7.2",
         "@types/cookie-parser": "^1.4.2",
-        "@types/express": "^4.17.6",
-        "@types/express-useragent": "^1.0.0",
+        "@types/express": "^4.17.13",
+        "@types/express-useragent": "^1.0.1",
         "@types/mocha": "^7.0.1",
         "body-parser": "^1.19.0",
-        "chai": "^4.2.0",
+        "chai": "^4.3.4",
         "chai-as-promised": "^7.1.1",
         "compression": "^1.7.4",
         "cookie-parser": "^1.4.4",
-        "express-useragent": "^1.0.13",
+        "express-useragent": "^1.0.15",
         "install": "^0.13.0",
-        "mocha": "^7.0.1",
-        "npm": "^6.14.4",
-        "ts-node": "^8.6.2",
-        "typescript": "^4.4.2"
+        "mocha": "^7.2.0",
+        "npm": "^6.14.15",
+        "ts-node": "^8.10.2",
+        "typescript": "^4.4.4"
     },
     "dependencies": {
-        "axios": "^0.21.1",
+        "axios": "^0.21.4",
         "express": "^4.17.1",
         "path-to-regexp": "^4.0.2",
-        "rtti": "^1.0.0"
+        "rtti": "^1.0.1"
     }
 }
