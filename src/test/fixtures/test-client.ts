@@ -1,9 +1,8 @@
 import {createHttpClient} from '../../client';
-import {testSchema} from './test-schema';
+import {TestSchema} from './test-schemas';
 
-
-export function createTestClient() {
-    return createHttpClient(testSchema, {
+export function createTestClient(schema: TestSchema) {
+    return createHttpClient(schema, {
         baseURL: 'http://localhost:8000/api',
     });
 }

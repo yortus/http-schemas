@@ -5,10 +5,18 @@ import * as express from 'express';
 import * as useragent from 'express-useragent';
 import * as http from 'http';
 import {createRequestHandler, decorateExpressRouter, t} from '../../server';
-import {testGetOnlySchema, testSchema} from './test-schema';
+import {testSchemaGetOnly, TestSchema} from './test-schemas';
 
 
-export function createTestServer() {
+export function createTestServer(testSchema: TestSchema) {
+
+    const logMessages: string[] = [];
+
+    // Logging middleware
+    const log: express.RequestHandler = (req, _, next) => {
+        logMessages.push(`Incoming request: ${req.path}`);
+        next();
+    }
 
     const RequestProps = t.object({
         // `req.useragent` prop added by useragent middleware
@@ -27,7 +35,7 @@ export function createTestServer() {
         schema: testSchema,
         requestProps: RequestProps,
         onValidationError: (err, _, res) => {
-            console.log(err);
+            logMessages.push(err.toString());
             res.status(200).send({success: false, code: 'MY_CUSTOM_VALIDATION_ERROR'});
         },
     });
@@ -100,6 +108,7 @@ export function createTestServer() {
                 server.close(() => resolve());
             });
         },
+        logMessages,
     };
 }
 
@@ -116,7 +125,7 @@ export const createGetOnlyServer = () => {
 
     // Implement the HTTP schema using an Express Router instance.
     const typedRoutes = decorateExpressRouter({
-        schema: testGetOnlySchema,
+        schema: testSchemaGetOnly,
     });
 
     // Specify some route handlers inline

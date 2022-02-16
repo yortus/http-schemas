@@ -1,11 +1,11 @@
 // NB: express imports will be elided in the built js code, since we are only importing types.
 import {NextFunction, Request, RequestHandler as ExpressRequestHandler, Response} from 'express';
-import {t, TypeInfo} from 'rtti';
+import {TypeInfo} from 'rtti';
 import {ExtractMethod, ExtractPath, NamedParams, RequestBody, ResponseBody} from '../util';
 import {HttpSchema, Method} from '../shared';
 
 
- /**
+/**
  * Accepts and returns a request handler function that is strongly-typed to match the given schema definition for the
  * given method and path. The function is returned as-is. This helper just provides convenient contextual typing.
  */
@@ -14,6 +14,11 @@ export function createRequestHandler<S extends HttpSchema, R extends keyof S>(
     route: R,
     handler: RequestHandler<S, ExtractMethod<R>, ExtractPath<R>, {}>
 ): RequestHandler<S, ExtractMethod<R>, ExtractPath<R>, {}>;
+
+/**
+ * Accepts and returns a request handler function that is strongly-typed to match the given schema definition for the
+ * given method and path. The function is returned as-is. This helper just provides convenient contextual typing.
+ */
 export function createRequestHandler<S extends HttpSchema, R extends keyof S, ReqProps extends TypeInfo = TypeInfo<{}>>(
     options: {
         schema: S,
@@ -22,9 +27,40 @@ export function createRequestHandler<S extends HttpSchema, R extends keyof S, Re
         handler: RequestHandler<S, ExtractMethod<R>, ExtractPath<R>, ReqProps['example']>
     }
 ): RequestHandler<S, ExtractMethod<R>, ExtractPath<R>, {}>;
-export function createRequestHandler(optionsOrSchema: unknown, route?: unknown, handler?: unknown): ExpressRequestHandler {
-    let h = (handler ?? (optionsOrSchema as any).handler) as ExpressRequestHandler;
-    let requestProps = handler ? undefined : (optionsOrSchema as any).requestProps as TypeInfo;
+
+/**
+ * Accepts and returns a request handler function that is strongly-typed to match the given schema definition for the
+ * given method and path. The function is returned as-is. This helper just provides convenient contextual typing.
+ */
+export function createRequestHandler<S extends HttpSchema, M extends Method, P extends S[any]['path']>(
+    schema: S,
+    method: M,
+    path: P,
+    handler: RequestHandler<S, M, P, {}>
+): RequestHandler<S, M, P, {}>;
+
+/**
+ * Accepts and returns a request handler function that is strongly-typed to match the given schema definition for the
+ * given method and path. The function is returned as-is. This helper just provides convenient contextual typing.
+ */
+export function createRequestHandler<S extends HttpSchema, M extends Method, P extends S[any]['path'], ReqProps extends TypeInfo = TypeInfo<{}>>(
+    options: {
+        schema: S,
+        method: M,
+        path: P,
+        requestProps?: ReqProps
+        handler: RequestHandler<S, M, P, ReqProps['example']>
+    }
+): RequestHandler<S, M, P, {}>;
+
+export function createRequestHandler(optionsOrSchema: unknown, _methodOrRoute?: unknown, pathOrHandler?: unknown, handler?: unknown): ExpressRequestHandler {
+    // Distinguish between the various overloads.
+    let h = handler
+        ? handler as ExpressRequestHandler
+        : pathOrHandler
+            ? pathOrHandler as ExpressRequestHandler
+            : (optionsOrSchema as any).handler as ExpressRequestHandler;
+    let requestProps = pathOrHandler ? undefined : (optionsOrSchema as any).requestProps as TypeInfo;
 
     // If there are no request props to validate, return the given request handler as-is.
     if (!requestProps) return h;
