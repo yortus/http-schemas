@@ -1,14 +1,13 @@
 import * as chai from 'chai';
 import {createTestClient} from './fixtures/test-client';
-import {createGetOnlyServer, createTestServer} from './fixtures/test-server';
-
+import {createTestServer} from './fixtures/test-server-v0-api';
+import {testSchemaFromArray} from './fixtures/test-schemas';
 
 const {expect} = chai;
 
-
-describe('Implementing a HTTP client and server', () => {
-    const client = createTestClient();
-    const server = createTestServer();
+describe('Implementing a HTTP client and server (v0.x API)', () => {
+    const client = createTestClient(testSchemaFromArray);
+    const server = createTestServer(testSchemaFromArray);
     before(server.start);
     after(server.stop);
     it('GET /random-numbers', async () => {
@@ -42,16 +41,3 @@ describe('Implementing a HTTP client and server', () => {
         expect(invalid).to.include({success: false, code: 'MY_CUSTOM_VALIDATION_ERROR'});
     });
 });
-
-describe('HTTP Server without JSON parser', () => {
-    const client = createTestClient();
-    const server = createGetOnlyServer();
-    before(server.start);
-    after(server.stop);
-
-    it('GET /random-numbers works without json body parser', async () => {
-        const rnds = await client.get('/random-numbers');
-        expect(rnds).to.be.an('array');
-        rnds.every(n => expect(n).to.be.a('number'));
-    });
-})

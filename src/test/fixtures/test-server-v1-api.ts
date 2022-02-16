@@ -5,10 +5,10 @@ import * as express from 'express';
 import * as useragent from 'express-useragent';
 import * as http from 'http';
 import {createRequestHandler, decorateExpressRouter, t} from '../../server';
-import {testGetOnlySchema, testSchema} from './test-schema';
+import {testSchemaGetOnly, TestSchema} from './test-schemas';
 
 
-export function createTestServer() {
+export function createTestServer(testSchema: TestSchema) {
 
     const RequestProps = t.object({
         // `req.useragent` prop added by useragent middleware
@@ -116,7 +116,7 @@ export const createGetOnlyServer = () => {
 
     // Implement the HTTP schema using an Express Router instance.
     const typedRoutes = decorateExpressRouter({
-        schema: testGetOnlySchema,
+        schema: testSchemaGetOnly,
     });
 
     // Specify some route handlers inline
