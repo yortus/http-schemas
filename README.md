@@ -10,6 +10,9 @@ Use `http-schemas` to describe the 'shape' of a HTTP API in a way that is enforc
 
 
 ## Example Shared Code (use in both client and server)
+
+> NOTE: The [v0.10 API](https://github.com/yortus/http-schemas/tree/v0.10#example-shared-code-use-in-both-client-and-server) is deprecated but still supported.
+
 ```ts
 import {createHttpSchema, t} from 'http-schemas';
 
@@ -49,6 +52,9 @@ let res5 = client.post('/blah');                                // tsc build err
 
 
 ## Example Server-Side Code
+
+> NOTE: The [v0.10 API](https://github.com/yortus/http-schemas/tree/v0.10#example-server-side-code) is deprecated but still supported.
+
 ```ts
 import * as express from 'express';
 import {createRequestHandler, decorateExpressRouter} from 'http-schemas/server';
