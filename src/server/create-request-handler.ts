@@ -1,6 +1,6 @@
 // NB: express imports will be elided in the built js code, since we are only importing types.
 import {NextFunction, Request, RequestHandler as ExpressRequestHandler, Response} from 'express';
-import {t, TypeInfo} from 'rtti';
+import {TypeInfo} from 'rtti';
 import {ExtractMethod, ExtractPath, NamedParams, RequestBody, ResponseBody} from '../util';
 import {HttpSchema, Method} from '../shared';
 

@@ -10,6 +10,14 @@ import {TestSchema} from './test-schemas';
 
 export function createTestServer(testSchema: TestSchema) {
 
+    const logMessages: string[] = [];
+
+    // Logging middleware
+    const log: express.RequestHandler = (req, _, next) => {
+        logMessages.push(`Incoming request: ${req.path}`);
+        next();
+    }
+    
     const RequestProps = t.object({
         // `req.useragent` prop added by useragent middleware
         useragent: t.object({
@@ -27,7 +35,7 @@ export function createTestServer(testSchema: TestSchema) {
         schema: testSchema,
         requestProps: RequestProps,
         onValidationError: (err, _, res) => {
-            console.log(err);
+            logMessages.push(err.toString());
             res.status(200).send({success: false, code: 'MY_CUSTOM_VALIDATION_ERROR'});
         },
     });
@@ -102,14 +110,9 @@ export function createTestServer(testSchema: TestSchema) {
                 server.close(() => resolve());
             });
         },
+        logMessages,
     };
 }
 
 
 let server: http.Server;
-
-
-const log: express.RequestHandler = (req, _, next) => {
-    console.log(`Incoming request: ${req.path}`);
-    next();
-}
