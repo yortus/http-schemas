@@ -1,10 +1,8 @@
 import * as chai from 'chai';
-import * as chaiAsPromised from 'chai-as-promised';
 import {createTestClient} from './fixtures/test-client';
 import {createGetOnlyServer, createTestServer} from './fixtures/test-server';
 
 
-chai.use(chaiAsPromised);
 const {expect} = chai;
 
 
@@ -32,7 +30,8 @@ describe('Implementing a HTTP client and server', () => {
     });
     it('GET * (invalid)', async () => {
         const getMsg = () => client.get('*', {params: {0: '/ciao'}, body: {name: 'bella'}});
-        await expect(getMsg()).to.eventually.be.rejected;
+        const msg = await getMsg().catch(() => 'ERROR!!');
+        expect(msg).equals('ERROR!!');
     });
     it('PUT /multiply', async () => {
         const prod = await client.put('/multiply', {body: {first: 2, second:5}});
