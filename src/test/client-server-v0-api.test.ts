@@ -45,6 +45,6 @@ describe('Implementing a HTTP client and server (v0.x API)', () => {
     it('Server-side validation error', async () => {
         const invalid = await client.post('/sum', {body: [1, '2', 3, 4] as number[]});
         expect(invalid).to.include({success: false, code: 'MY_CUSTOM_VALIDATION_ERROR'});
-        expect(server.logMessages.at(-1)).equals(`Error: [ 1, '2', 3, 4 ] does not conform to type Array<number>`);
+        expect(server.logMessages.at(-1)).equals(`Error: [1, "2", 3, 4] does not conform to type Array<number>`);
     });
 });
