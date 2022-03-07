@@ -1,6 +1,6 @@
 {
     "name": "http-schemas",
-    "version": "0.13.1",
+    "version": "0.13.2",
     "description": "Strongly-typed HTTP schemas",
     "main": "./dist/index.js",
     "types": "./dist/index.d.ts",
