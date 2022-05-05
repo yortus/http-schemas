@@ -1,6 +1,19 @@
 # http-schemas
 
-Use `http-schemas` to describe the 'shape' of a HTTP API in a way that is enforced both at build time and at runtime. In TypeScript source code, HTTP requests in the client code, and route handlers in the server code, will be statically checked against the schema, so usage errors are caught early. At runtime the schema is used to ensure that request and response payloads match the schema. Response payloads are also trimmed of any excess properties to prevent accidental information leaks. A schema may be shared by both client-side and server-side code, giving a single source of truth and ensuring the client and server always agree on their shared API.
+`http-schemas` describes the 'shape' of an HTTP API both at build time and runtime. 
+
+At compile time it statically checks:
+* HTTP requests in the client code
+* Route handlers in the server code
+against the declared schema, ensuring usage errors are caught early.
+  
+At runtime, `http-schemas`:
+* validates that response and request payloads match the declared schema
+* Trims response payloads of any excess properties, preventing information leaks
+
+Use a shared schema for both client and server side code as a single source of truth, ensuring 
+the client and server always agree on the API.
+
 
 `http-schemas` uses the [`rtti`](https://github.com/yortus/rtti) library for specifying and enforcing schemas.
 
@@ -27,9 +40,6 @@ export const apiSchema = createHttpSchema({
     },
 });
 ```
-
-
-
 
 
 ## Example Client-Side Code
